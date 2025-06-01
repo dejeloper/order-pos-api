@@ -14,27 +14,33 @@ class RolesSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = Role::firstOrCreate(['name' => 'admin']);
+        $superAdmin = Role::firstOrCreate(['name' => 'developer', 'label' => 'Desarrollador']);
+        $superAdmin->syncPermissions(Permission::all());
+
+        $admin = Role::firstOrCreate(['name' => 'admin', 'label' => 'Administrador']);
         $admin->syncPermissions(Permission::all());
 
-        Role::firstOrCreate(['name' => 'coordinator'])->syncPermissions([
-            'view_products',
-            'create_products',
-            'edit_products',
-            'delete_products',
-            'view_disabled_products',
-            'view_trashed_product',
-        ]);
+        Role::firstOrCreate(['name' => 'coordinator', 'label' => 'Coodinador'])
+            ->syncPermissions([
+                'view_products',
+                'create_products',
+                'edit_products',
+                'delete_products',
+                'view_disabled_products',
+                'view_trashed_product',
+            ]);
 
-        Role::firstOrCreate(['name' => 'auxiliar'])->syncPermissions([
-            'view_products',
-            'create_products',
-        ]);
+        Role::firstOrCreate(['name' => 'auxiliar', 'label' => 'Auxiliar'])
+            ->syncPermissions([
+                'view_products',
+                'create_products',
+            ]);
 
-        Role::firstOrCreate(['name' => 'visitor'])->syncPermissions([
-            'view_products',
-            'view_disabled_products',
-            'view_trashed_product',
-        ]);
+        Role::firstOrCreate(['name' => 'visitor', 'label' => 'Visitante'])
+            ->syncPermissions([
+                'view_products',
+                'view_disabled_products',
+                'view_trashed_product',
+            ]);
     }
 }

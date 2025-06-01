@@ -56,6 +56,7 @@ class AuthController extends Controller
                     'id' => $user->id,
                     'name' => $user->name,
                     'username' => $user->username,
+                    'role' => $user->getRoleNames()->first(),
                 ],
             ], 200);
         } catch (JWTException $e) {
@@ -70,7 +71,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'user' => $user,
-                'roles' => $user->getRoleNames(),
+                'role' => $user->getRoleNames()->first(),
                 'permissions' => $user->getAllPermissions()->pluck('name'),
             ], 200);
         } catch (\Exception $e) {
