@@ -17,49 +17,66 @@ Actualmente, el proyecto cuenta con la estructura básica de Laravel y está en 
 
 ## Instalación
 
-1. Clona el repositorio:
+1. **Clona el repositorio:**
 
     ```bash
     git clone https://github.com/dejeloper/order-pos-api.git
     cd order-pos-api
     ```
 
-2. Instala las dependencias de PHP:
+2. **Instala las dependencias de PHP:**
 
     ```bash
     composer install
     ```
 
-3. Copia el archivo de entorno y configura tus variables:
+3. **Copia el archivo de entorno y configura tus variables:**
 
     ```bash
     cp .env.example .env
     # Edita .env con tus credenciales de base de datos
     ```
 
-4. Genera la clave de la aplicación:
+4. **Genera la clave de la aplicación:**
 
     ```bash
     php artisan key:generate
     ```
 
-5. Ejecuta las migraciones:
+5. **Ejecuta las migraciones:**
 
     ```bash
     php artisan migrate
     ```
 
-6. Levanta el servidor de desarrollo:
+6. **(Opcional) Si tienes seeders, ejecútalos:**
+
+    ```bash
+    php artisan db:seed
+    ```
+
+7. **Levanta el servidor de desarrollo:**
     ```bash
     php artisan serve
     ```
 
 La API estará disponible en `http://localhost:8000`.
 
+## Documentación de la API
+
+Este proyecto utiliza Swagger para documentar los endpoints.  
+Una vez instalado y configurado, puedes acceder a la documentación interactiva en:
+
+```
+http://localhost:8000/api/documentation
+```
+
 ## Estructura actual
 
 -   Gestión de pedidos (en desarrollo)
 -   Gestión de productos (en desarrollo)
+-   Gestión de usuarios y roles
+-   Autenticación JWT (en desarrollo)
 -   Estructura base de Laravel
 
 ## Contribuir
