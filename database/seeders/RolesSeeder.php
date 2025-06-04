@@ -18,16 +18,34 @@ class RolesSeeder extends Seeder
         $superAdmin->syncPermissions(Permission::all());
 
         $admin = Role::firstOrCreate(['name' => 'admin', 'label' => 'Administrador']);
-        $admin->syncPermissions(Permission::all());
-
-        Role::firstOrCreate(['name' => 'coordinator', 'label' => 'Coodinador'])
-            ->syncPermissions([
+        $admin->syncPermissions(
+            [
+                'view_roles',
+                'view_permissions',
+                'view_users',
+                'create_users',
+                'edit_users',
+                'delete_users',
+                'view_disabled_users',
+                'view_users_by_name',
+                'edit_users_permissions',
                 'view_products',
                 'create_products',
                 'edit_products',
                 'delete_products',
                 'view_disabled_products',
-                'view_trashed_product',
+            ]
+        );
+
+        Role::firstOrCreate(['name' => 'coordinator', 'label' => 'Coodinador'])
+            ->syncPermissions([
+                'view_users',
+                'create_users',
+                'edit_users',
+                'view_users_by_name',
+                'view_products',
+                'create_products',
+                'edit_products',
             ]);
 
         Role::firstOrCreate(['name' => 'auxiliar', 'label' => 'Auxiliar'])
@@ -39,8 +57,6 @@ class RolesSeeder extends Seeder
         Role::firstOrCreate(['name' => 'visitor', 'label' => 'Visitante'])
             ->syncPermissions([
                 'view_products',
-                'view_disabled_products',
-                'view_trashed_product',
             ]);
     }
 }
