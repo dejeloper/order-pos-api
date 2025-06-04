@@ -8,7 +8,18 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-    // Productos habilitados
+    /**
+     * @OA\Get(
+     *     path="/api/products",
+     *     summary="Listar productos habilitados",
+     *     tags={"Productos"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de productos habilitados",
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Product"))
+     *     )
+     * )
+     */
     public function index()
     {
         $products = Product::where('enabled', true)->get();
@@ -20,7 +31,18 @@ class ProductController extends Controller
         return response()->json($products, 200);
     }
 
-    // Productos deshabilitados
+    /**
+     * @OA\Get(
+     *     path="/api/products/disabled",
+     *     summary="Listar productos deshabilitados (soft deleted)",
+     *     tags={"Productos"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de productos deshabilitados",
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Product"))
+     *     )
+     * )
+     */
     public function indexDisabled()
     {
         $products = Product::onlyTrashed()->get();
@@ -32,7 +54,29 @@ class ProductController extends Controller
         return response()->json($products, 200);
     }
 
-    // Obtener producto por ID (solo habilitados)
+    /**
+     * @OA\Get(
+     *     path="/api/products/{id}",
+     *     summary="Obtener producto habilitado por ID",
+     *     tags={"Productos"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del producto",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Producto encontrado",
+     *         @OA\JsonContent(ref="#/components/schemas/Product")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Producto no encontrado o no habilitado"
+     *     )
+     * )
+     */
     public function show($id)
     {
         $product = Product::where('enabled', true)->find($id);
@@ -44,7 +88,29 @@ class ProductController extends Controller
         return response()->json($product, 200);
     }
 
-    // Obtener producto solo si está soft-deleted
+    /**
+     * @OA\Get(
+     *     path="/api/products/trashed/{id}",
+     *     summary="Obtener producto eliminado (soft deleted) por ID",
+     *     tags={"Productos"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del producto eliminado",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Producto eliminado encontrado",
+     *         @OA\JsonContent(ref="#/components/schemas/Product")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Deleted product not found"
+     *     )
+     * )
+     */
     public function showTrashed($id)
     {
         $product = Product::onlyTrashed()->find($id);
@@ -56,7 +122,30 @@ class ProductController extends Controller
         return response()->json($product, 200);
     }
 
-    // Crear producto
+    /**
+     * @OA\Post(
+     *     path="/api/products",
+     *     summary="Crear producto",
+     *     tags={"Productos"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name","price"},
+     *             @OA\Property(property="name", type="string", example="Producto X"),
+     *             @OA\Property(property="price", type="number", format="float", example=99.99)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Producto creado exitosamente",
+     *         @OA\JsonContent(ref="#/components/schemas/Product")
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Datos inválidos"
+     *     )
+     * )
+     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -80,7 +169,39 @@ class ProductController extends Controller
         ], 201);
     }
 
-    // Actualizar producto habilitado
+    /**
+     * @OA\Put(
+     *     path="/api/products/{id}",
+     *     summary="Actualizar producto habilitado",
+     *     tags={"Productos"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del producto",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", example="Nuevo nombre"),
+     *             @OA\Property(property="price", type="number", format="float", example=199.99)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Producto actualizado exitosamente",
+     *         @OA\JsonContent(ref="#/components/schemas/Product")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Producto no encontrado o deshabilitado"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Datos inválidos"
+     *     )
+     * )
+     */
     public function update(Request $request, $id)
     {
         $product = Product::where('enabled', true)->find($id);
@@ -109,7 +230,28 @@ class ProductController extends Controller
         ], 200);
     }
 
-    // Soft delete (deshabilita)
+    /**
+     * @OA\Delete(
+     *     path="/api/products/{id}",
+     *     summary="Deshabilitar (soft delete) producto",
+     *     tags={"Productos"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del producto",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Producto deshabilitado y soft deleted"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Producto no encontrado o ya eliminado"
+     *     )
+     * )
+     */
     public function destroy($id)
     {
         $product = Product::where('enabled', true)->find($id);
@@ -125,7 +267,31 @@ class ProductController extends Controller
         return response()->json(['message' => 'Product disabled and soft deleted'], 200);
     }
 
-    // Restaurar producto soft deleted
+    /**
+     * @OA\Post(
+     *     path="/api/products/{id}/restore",
+     *     summary="Restaurar producto eliminado (soft deleted)",
+     *     tags={"Productos"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del producto eliminado",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Producto restaurado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Product restored successfully")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Deleted product not found"
+     *     )
+     * )
+     */
     public function restore($id)
     {
         $product = Product::onlyTrashed()->find($id);
@@ -141,7 +307,28 @@ class ProductController extends Controller
         return response()->json(['message' => 'Product restored successfully'], 200);
     }
 
-    // Borrado permanente
+    /**
+     * @OA\Delete(
+     *     path="/api/products/{id}/force",
+     *     summary="Eliminar producto permanentemente",
+     *     tags={"Productos"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del producto eliminado",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Producto eliminado permanentemente"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Deleted product not found"
+     *     )
+     * )
+     */
     public function forceDelete($id)
     {
         $product = Product::onlyTrashed()->find($id);

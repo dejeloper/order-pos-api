@@ -43,6 +43,33 @@ class AuthController extends Controller
         return response()->json(['message' => 'User created successfully'], 201);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/login",
+     *     summary="Iniciar sesión y obtener token JWT",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"username","password"},
+     *             @OA\Property(property="username", type="string", example="jguerrero"),
+     *             @OA\Property(property="password", type="string", example="password12345")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Login exitoso, retorna token y datos de usuario"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Credenciales inválidas"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Datos inválidos"
+     *     )
+     * )
+     */
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -76,6 +103,22 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/me",
+     *     summary="Obtener usuario autenticado",
+     *     tags={"Auth"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Datos del usuario autenticado"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Token inválido o usuario no encontrado"
+     *     )
+     * )
+     */
     public function getUser()
     {
         try {
@@ -91,6 +134,21 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/logout",
+     *     summary="Cerrar sesión (invalidar token)",
+     *     tags={"Auth"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Sesión cerrada correctamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Logged out successfully")
+     *         )
+     *     )
+     * )
+     */
     public function logout()
     {
         JWTAuth::invalidate(JWTAuth::getToken());
@@ -98,6 +156,18 @@ class AuthController extends Controller
         return response()->json(['message' => 'Logged out successfully'], 200);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/refresh",
+     *     summary="Refrescar token JWT",
+     *     tags={"Auth"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Nuevo token JWT"
+     *     )
+     * )
+     */
     public function refresh()
     {
         return $this->respondWithToken(JWTAuth::refresh());
