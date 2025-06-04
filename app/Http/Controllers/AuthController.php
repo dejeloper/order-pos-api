@@ -95,11 +95,4 @@ class AuthController extends Controller
     {
         return response()->json(['token' => $token], 200);
     }
-
-    public function getAllUsers()
-    {
-        $users = User::all();
-
-        return response()->json($users, 200);
-    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RolesPermisosController;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 // Public routes
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-Route::get('users', [AuthController::class, 'getAllUsers']);
+Route::get('getusers', [UserController::class, 'users']);
 
 
 // Protected routes

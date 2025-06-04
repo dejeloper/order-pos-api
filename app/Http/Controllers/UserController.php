@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function users()
+    {
+        $users = User::get();
+        return response()->json($users, 200);
+    }
+
     public function index()
     {
         $users = User::with('roles')->whereNull('deleted_at')->get();
