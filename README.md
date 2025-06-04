@@ -2,11 +2,28 @@
 
 # Order POS API
 
-Order POS API es una API backend desarrollada en Laravel para la gestión de pedidos en puntos de venta (POS). El objetivo es ofrecer una API robusta y escalable para administrar órdenes, productos y usuarios en un entorno de ventas.
+Order POS API es una API backend desarrollada en Laravel para la gestión de puntos de venta (POS). Actualmente, el enfoque principal está en la administración de usuarios y productos, pero el objetivo es evolucionar hacia una solución integral que abarque todo el ciclo de ventas, cobranza, pagos, clientes, reportes, inventario, facturación y más.
 
 ## Descripción
 
-Actualmente, el proyecto cuenta con la estructura básica de Laravel y está en desarrollo la gestión de pedidos y productos. Próximamente se implementarán autenticación, control de inventario y reportes.
+Actualmente, el proyecto cuenta con la estructura básica de Laravel y funcionalidades iniciales para la gestión de usuarios y productos.  
+A futuro, se planea implementar:
+
+-   Gestión completa de clientes y pedidos
+-   Cálculo y registro de pagos y recibos
+-   Gestión y seguimiento de cobranza y llamadas
+-   Generación de devoluciones
+-   Listados y reportes diarios de llamadas y gestiones
+-   Log de acciones y auditoría
+-   Reportes y gráficas financieras
+-   Ventas al contado, a cuotas y en POS
+-   Control de inventario y productos
+-   Gestión de nómina, cuentas por pagar/cobrar y facturación electrónica
+-   Integración con sistemas externos y automatización de notificaciones
+
+El objetivo es ofrecer una API robusta, escalable y adaptable a las necesidades de cualquier negocio de ventas.
+
+Próximamente se irán sumando nuevas funcionalidades y módulos según el roadmap del proyecto.
 
 ## Requisitos
 
@@ -70,14 +87,6 @@ Una vez instalado y configurado, puedes acceder a la documentación interactiva 
 ```
 http://localhost:8000/api/documentation
 ```
-
-## Estructura actual
-
--   Gestión de pedidos (en desarrollo)
--   Gestión de productos (en desarrollo)
--   Gestión de usuarios y roles
--   Autenticación JWT (en desarrollo)
--   Estructura base de Laravel
 
 ## Contribuir
 
