@@ -1,0 +1,248 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Order POS API",
+        "description": "API para la gestión de pedidos, productos y usuarios en puntos de venta.",
+        "contact": {
+            "name": "Jhonatan Guerrero",
+            "email": "jhonatanguerrero@outlook.com"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Registrar un nuevo usuario",
+                "operationId": "8a56853624e025573120a09a4c75d468",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "username",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Jhonatan Guerrero"
+                                    },
+                                    "username": {
+                                        "type": "string",
+                                        "example": "jguerrero"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password12345"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "example": "password12345"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario creado exitosamente"
+                    },
+                    "422": {
+                        "description": "Datos inválidos"
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Iniciar sesión y obtener token JWT",
+                "operationId": "a3b306d14572d1f4bd6c064b3233e7b8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "username",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "jguerrero"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password12345"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login exitoso, retorna token y datos de usuario"
+                    },
+                    "401": {
+                        "description": "Credenciales inválidas"
+                    },
+                    "422": {
+                        "description": "Datos inválidos"
+                    }
+                }
+            }
+        },
+        "/api/me": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Obtener usuario autenticado",
+                "operationId": "a39fa66a3964c041ce760a10f06a4be5",
+                "responses": {
+                    "200": {
+                        "description": "Datos del usuario autenticado"
+                    },
+                    "401": {
+                        "description": "Token inválido o usuario no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Cerrar sesión (invalidar token)",
+                "operationId": "fe8f3429cd6979b3b4517e186505f9f9",
+                "responses": {
+                    "200": {
+                        "description": "Sesión cerrada correctamente"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/refresh": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Refrescar token JWT",
+                "operationId": "2c27d311a2876560fcb5a754b556cdc5",
+                "responses": {
+                    "200": {
+                        "description": "Nuevo token JWT"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "title": "Usuario",
+                "description": "Modelo que representa un usuario del sistema",
+                "required": [
+                    "id",
+                    "name",
+                    "username"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único del usuario",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Nombre completo del usuario",
+                        "type": "string",
+                        "example": "Jhonatan Guerrero"
+                    },
+                    "username": {
+                        "description": "Nombre de usuario para login",
+                        "type": "string",
+                        "example": "jguerrero"
+                    },
+                    "password": {
+                        "description": "Contraseña del usuario (encriptada)",
+                        "type": "string",
+                        "format": "password",
+                        "example": "********"
+                    },
+                    "created_at": {
+                        "description": "Fecha de creación",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-06-03T12:34:56Z"
+                    },
+                    "updated_at": {
+                        "description": "Fecha de última actualización",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-06-03T12:34:56Z"
+                    },
+                    "deleted_at": {
+                        "description": "Fecha de eliminación (null si activo)",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "roles": {
+                        "description": "Roles asignados al usuario",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "admin"
+                        }
+                    },
+                    "permissions": {
+                        "description": "Permisos asignados al usuario",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "edit-users"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Auth"
+        }
+    ]
+}

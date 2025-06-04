@@ -8,6 +8,18 @@ use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
+/**
+ * @OA\Info(
+ *     version="1.0.0",
+ *     title="Order POS API",
+ *     description="API para la gestión de pedidos, productos y usuarios en puntos de venta.",
+ *     @OA\Contact(
+ *      email="jhonatanguerrero@outlook.com",
+ *      name="Jhonatan Guerrero"
+ *     )
+ * )
+ */
+
 class AuthController extends Controller
 {
     public function register(Request $request)
