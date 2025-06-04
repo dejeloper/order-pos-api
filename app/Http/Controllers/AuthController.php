@@ -12,10 +12,15 @@ use Tymon\JWTAuth\Facades\JWTAuth;
  * @OA\Info(
  *     version="1.0.0",
  *     title="Order POS API",
- *     description="API para la gestión de pedidos, productos y usuarios en puntos de venta.",
+ *     description="Order POS API es una solución backend desarrollada en Laravel para la gestión integral de puntos de venta. Actualmente permite administrar usuarios y productos, y en el futuro abarcará todo el ciclo de ventas, cobranza, pagos, clientes, reportes, inventario, facturación y más.",
+ *     @OA\License(
+ *         name="MIT",
+ *         url="https://opensource.org/licenses/MIT"
+ *     ),
  *     @OA\Contact(
- *      email="jhonatanguerrero@outlook.com",
- *      name="Jhonatan Guerrero"
+ *         url="https://dejeloper.com",
+ *         email="jhonatanguerrero@outlook.com",
+ *         name="Jhonatan Guerrero"
  *     )
  * )
  */
