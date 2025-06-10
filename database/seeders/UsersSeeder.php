@@ -15,7 +15,7 @@ class UsersSeeder extends Seeder
     {
         $users = [
             ['name' => 'dejeloper', 'username' => 'dejeloper', 'role' => 'developer'],
-            ['name' => 'Jhonatan Guerrero', 'username' => 'jhonatan', 'role' => 'admin'],
+            ['name' => 'Jhonatan Guerrero', 'username' => 'jhonatan', 'role' => 'developer'],
             ['name' => 'Camilo Murcia', 'username' => 'camilo', 'role' => 'coordinator'],
             ['name' => 'Marta Garcia', 'username' => 'marta', 'role' => 'auxiliar'],
             ['name' => 'Maria Gonzalez', 'username' => 'maria', 'role' => 'visitor'],
